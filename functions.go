@@ -85,3 +85,24 @@ func isInNet(call otto.FunctionCall) otto.Value {
 		return otto.FalseValue()
 	}
 }
+
+func dnsResolve(call otto.FunctionCall) otto.Value {
+	host := call.Argument(0).String()
+	addrs, err := net.LookupIP(host)
+	if err != nil {
+		return otto.UndefinedValue()
+	}
+	var ip net.IP = nil
+	for _, addr := range addrs {
+		ip4 := addr.To4()
+		if ip4 != nil {
+			ip = ip4
+			break
+		}
+	}
+	if ip == nil {
+		return otto.UndefinedValue()
+	}
+	v, _ := otto.ToValue(ip.String())
+	return v
+}

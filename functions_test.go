@@ -66,3 +66,11 @@ func TestIsInNet(t *testing.T) {
 	}
 	testFunc(t, tcs, "isInNet", isInNet)
 }
+
+func TestDnsResolve(t *testing.T) {
+	tcs := []string{
+		`dnsResolve("localhost") === "127.0.0.1"`,
+		`dnsResolve("example.com") !== "1.1.1.1"`,
+	}
+	testFunc(t, tcs, "dnsResolve", dnsResolve)
+}
