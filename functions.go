@@ -121,3 +121,9 @@ func convertAddr(call otto.FunctionCall) otto.Value {
 	v, _ := otto.ToValue(num)
 	return v
 }
+
+// Todo: how implement this?
+func myIpAddress(call otto.FunctionCall) otto.Value {
+	v, _ := otto.ToValue("127.0.0.1")
+	return v
+}

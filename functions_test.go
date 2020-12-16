@@ -82,3 +82,10 @@ func TestConvertAddr(t *testing.T) {
 	}
 	testFunc(t, tcs, "convert_addr", convertAddr)
 }
+
+func TestMyIpAddress(t *testing.T) {
+	tcs := []string{
+		`myIpAddress() === "127.0.0.1"`,
+	}
+	testFunc(t, tcs, "myIpAddress", myIpAddress)
+}
