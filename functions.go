@@ -25,3 +25,20 @@ func dnsDomainIs(call otto.FunctionCall) otto.Value {
 		return otto.FalseValue()
 	}
 }
+
+func localHostOrDomainIs(call otto.FunctionCall) otto.Value {
+	host := call.Argument(0).String()
+	hostdom := call.Argument(1).String()
+	if host == hostdom {
+		return otto.TrueValue()
+	}
+	tokens := strings.SplitN(host, ".", 2)
+	if len(tokens) == 1 {
+		if host == strings.SplitN(hostdom, ".", 2)[0] {
+			return otto.TrueValue()
+		} else {
+			return otto.FalseValue()
+		}
+	}
+	return otto.FalseValue()
+}

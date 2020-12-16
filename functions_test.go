@@ -39,3 +39,13 @@ func TestDnsDomainIs(t *testing.T) {
 	}
 	testFunc(t, tcs, "dnsDomainIs", dnsDomainIs)
 }
+
+func TestLocalHostOrDomainsIs(t *testing.T) {
+	tcs := []string{
+		`localHostOrDomainIs("www.mozilla.org" , "www.mozilla.org") === true`,
+		`localHostOrDomainIs("www"             , "www.mozilla.org") === true`,
+		`localHostOrDomainIs("www.google.com"  , "www.mozilla.org") === false`,
+		`localHostOrDomainIs("home.mozilla.org", "www.mozilla.org") === false`,
+	}
+	testFunc(t, tcs, "localHostOrDomainIs", localHostOrDomainIs)
+}
