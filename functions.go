@@ -1,6 +1,7 @@
 package alpaca
 
 import (
+	"encoding/binary"
 	"net"
 	"strings"
 
@@ -104,5 +105,19 @@ func dnsResolve(call otto.FunctionCall) otto.Value {
 		return otto.UndefinedValue()
 	}
 	v, _ := otto.ToValue(ip.String())
+	return v
+}
+
+func convertAddr(call otto.FunctionCall) otto.Value {
+	ip := net.ParseIP(call.Argument(0).String())
+	if ip == nil {
+		return otto.UndefinedValue()
+	}
+	ip4 := ip.To4()
+	if ip4 == nil {
+		return otto.UndefinedValue()
+	}
+	num := binary.BigEndian.Uint32(ip4)
+	v, _ := otto.ToValue(num)
 	return v
 }

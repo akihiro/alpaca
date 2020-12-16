@@ -74,3 +74,11 @@ func TestDnsResolve(t *testing.T) {
 	}
 	testFunc(t, tcs, "dnsResolve", dnsResolve)
 }
+
+func TestConvertAddr(t *testing.T) {
+	tcs := []string{
+		`convert_addr("104.16.41.2") === 1745889538`,
+		`convert_addr("127.0.0.1") === 2130706433`,
+	}
+	testFunc(t, tcs, "convert_addr", convertAddr)
+}
