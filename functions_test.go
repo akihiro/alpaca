@@ -57,3 +57,12 @@ func TestIsResolvable(t *testing.T) {
 	}
 	testFunc(t, tcs, "isResolvable", isResolvable)
 }
+
+func TestIsInNet(t *testing.T) {
+	tcs := []string{
+		`isInNet("localhost", "127.0.0.0", "255.0.0.0") === true`,
+		`isInNet("192.168.0.1", "192.168.0.0", "255.255.255.0") === true`,
+		`isInNet("172.16.0.1", "192.168.0.0", "255.255.255.0") === false`,
+	}
+	testFunc(t, tcs, "isInNet", isInNet)
+}

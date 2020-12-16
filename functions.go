@@ -55,3 +55,33 @@ func isResolvable(call otto.FunctionCall) otto.Value {
 	}
 	return otto.TrueValue()
 }
+
+func isInNet(call otto.FunctionCall) otto.Value {
+	host := call.Argument(0).String()
+	addrs, err := net.LookupIP(host)
+	if err != nil {
+		return otto.UndefinedValue()
+	}
+	var ip net.IP = nil
+	for _, addr := range addrs {
+		ip4 := addr.To4()
+		if ip4 != nil {
+			ip = ip4
+			break
+		}
+	}
+	if ip == nil {
+		return otto.UndefinedValue()
+	}
+	prefix := net.ParseIP(call.Argument(1).String())
+	mask := net.ParseIP(call.Argument(2).String())
+	if ip == nil || prefix == nil || mask == nil {
+		return otto.UndefinedValue()
+	}
+	ipnet := net.IPNet{IP: prefix, Mask: net.IPMask(mask)}
+	if ipnet.Contains(ip) {
+		return otto.TrueValue()
+	} else {
+		return otto.FalseValue()
+	}
+}
