@@ -127,3 +127,10 @@ func myIpAddress(call otto.FunctionCall) otto.Value {
 	v, _ := otto.ToValue("127.0.0.1")
 	return v
 }
+
+func dnsDomainLevels(call otto.FunctionCall) otto.Value {
+	host := call.Argument(0).String()
+	num := strings.Count(host, ".")
+	v, _ := otto.ToValue(num)
+	return v
+}

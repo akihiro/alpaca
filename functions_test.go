@@ -89,3 +89,12 @@ func TestMyIpAddress(t *testing.T) {
 	}
 	testFunc(t, tcs, "myIpAddress", myIpAddress)
 }
+
+func TestDnsDomainLevels(t *testing.T) {
+	tcs := []string{
+		`dnsDomainLevels("www") === 0`,
+		`dnsDomainLevels("mozilla.org") === 1`,
+		`dnsDomainLevels("www.mozilla.org") === 2`,
+	}
+	testFunc(t, tcs, "dnsDomainLevels", dnsDomainLevels)
+}
