@@ -32,3 +32,10 @@ func TestIsPlainHostName(t *testing.T) {
 	testFunc(t, tcs, "isPlainHostName", isPlainHostName)
 }
 
+func TestDnsDomainIs(t *testing.T) {
+	tcs := []string{
+		`dnsDomainIs("www.mozilla.org", ".mozilla.org") === true`,
+		`dnsDomainIs("www", ".mozilla.org") === false`,
+	}
+	testFunc(t, tcs, "dnsDomainIs", dnsDomainIs)
+}
