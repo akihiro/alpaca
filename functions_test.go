@@ -98,3 +98,11 @@ func TestDnsDomainLevels(t *testing.T) {
 	}
 	testFunc(t, tcs, "dnsDomainLevels", dnsDomainLevels)
 }
+
+func TestShExpMatch(t *testing.T) {
+	tcs := []string{
+		`shExpMatch("http://home.netscape.com/people/ari/index.html"     , "*/ari/*") === true`,
+		`shExpMatch("http://home.netscape.com/people/montulli/index.html", "*/ari/*") === false`,
+	}
+	testFunc(t, tcs, "shExpMatch", shExpMatch)
+}

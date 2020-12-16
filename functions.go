@@ -5,6 +5,7 @@ import (
 	"net"
 	"strings"
 
+	"github.com/danwakefield/fnmatch"
 	"github.com/robertkrimen/otto"
 )
 
@@ -132,5 +133,13 @@ func dnsDomainLevels(call otto.FunctionCall) otto.Value {
 	host := call.Argument(0).String()
 	num := strings.Count(host, ".")
 	v, _ := otto.ToValue(num)
+	return v
+}
+
+func shExpMatch(call otto.FunctionCall) otto.Value {
+	str := call.Argument(0).String()
+	exp := call.Argument(1).String()
+	b := fnmatch.Match(exp, str, 0)
+	v, _ := otto.ToValue(b)
 	return v
 }
