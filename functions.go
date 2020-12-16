@@ -1,6 +1,7 @@
 package alpaca
 
 import (
+	"net"
 	"strings"
 
 	"github.com/robertkrimen/otto"
@@ -41,4 +42,16 @@ func localHostOrDomainIs(call otto.FunctionCall) otto.Value {
 		}
 	}
 	return otto.FalseValue()
+}
+
+func isResolvable(call otto.FunctionCall) otto.Value {
+	host := call.Argument(0).String()
+	addrs, err := net.LookupHost(host)
+	if err != nil {
+		return otto.FalseValue()
+	}
+	if len(addrs) == 0 {
+		return otto.FalseValue()
+	}
+	return otto.TrueValue()
 }

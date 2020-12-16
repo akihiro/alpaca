@@ -49,3 +49,11 @@ func TestLocalHostOrDomainsIs(t *testing.T) {
 	}
 	testFunc(t, tcs, "localHostOrDomainIs", localHostOrDomainIs)
 }
+
+func TestIsResolvable(t *testing.T) {
+	tcs := []string{
+		`isResolvable("www.mozilla.org") === true`,
+		`isResolvable("notfound.example.com") === false`,
+	}
+	testFunc(t, tcs, "isResolvable", isResolvable)
+}
