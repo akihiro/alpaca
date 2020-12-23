@@ -2,13 +2,14 @@ package alpaca
 
 import (
 	"testing"
-
-	"github.com/robertkrimen/otto"
 )
 
-func testFunc(t *testing.T, testCases []string, name string, f func(otto.FunctionCall) otto.Value) {
-	vm := otto.New()
-	vm.Set(name, f)
+func testFunc(t *testing.T, testCases []string) {
+	e, err := NewEngine(nil)
+	if err != nil {
+		t.Error(err)
+	}
+	vm := e.(*engine).engine
 	for i, v := range testCases {
 		val, err := vm.Run(v)
 		if err != nil {
@@ -29,7 +30,7 @@ func TestIsPlainHostName(t *testing.T) {
 		`isPlainHostName("www.mozilla.org") === false`,
 		`isPlainHostName("www") === true`,
 	}
-	testFunc(t, tcs, "isPlainHostName", isPlainHostName)
+	testFunc(t, tcs)
 }
 
 func TestDnsDomainIs(t *testing.T) {
@@ -37,7 +38,7 @@ func TestDnsDomainIs(t *testing.T) {
 		`dnsDomainIs("www.mozilla.org", ".mozilla.org") === true`,
 		`dnsDomainIs("www", ".mozilla.org") === false`,
 	}
-	testFunc(t, tcs, "dnsDomainIs", dnsDomainIs)
+	testFunc(t, tcs)
 }
 
 func TestLocalHostOrDomainsIs(t *testing.T) {
@@ -47,7 +48,7 @@ func TestLocalHostOrDomainsIs(t *testing.T) {
 		`localHostOrDomainIs("www.google.com"  , "www.mozilla.org") === false`,
 		`localHostOrDomainIs("home.mozilla.org", "www.mozilla.org") === false`,
 	}
-	testFunc(t, tcs, "localHostOrDomainIs", localHostOrDomainIs)
+	testFunc(t, tcs)
 }
 
 func TestIsResolvable(t *testing.T) {
@@ -55,7 +56,7 @@ func TestIsResolvable(t *testing.T) {
 		`isResolvable("www.mozilla.org") === true`,
 		`isResolvable("notfound.example.com") === false`,
 	}
-	testFunc(t, tcs, "isResolvable", isResolvable)
+	testFunc(t, tcs)
 }
 
 func TestIsInNet(t *testing.T) {
@@ -64,7 +65,7 @@ func TestIsInNet(t *testing.T) {
 		`isInNet("192.168.0.1", "192.168.0.0", "255.255.255.0") === true`,
 		`isInNet("172.16.0.1", "192.168.0.0", "255.255.255.0") === false`,
 	}
-	testFunc(t, tcs, "isInNet", isInNet)
+	testFunc(t, tcs)
 }
 
 func TestDnsResolve(t *testing.T) {
@@ -72,7 +73,7 @@ func TestDnsResolve(t *testing.T) {
 		`dnsResolve("localhost") === "127.0.0.1"`,
 		`dnsResolve("example.com") !== "1.1.1.1"`,
 	}
-	testFunc(t, tcs, "dnsResolve", dnsResolve)
+	testFunc(t, tcs)
 }
 
 func TestConvertAddr(t *testing.T) {
@@ -80,14 +81,14 @@ func TestConvertAddr(t *testing.T) {
 		`convert_addr("104.16.41.2") === 1745889538`,
 		`convert_addr("127.0.0.1") === 2130706433`,
 	}
-	testFunc(t, tcs, "convert_addr", convertAddr)
+	testFunc(t, tcs)
 }
 
 func TestMyIpAddress(t *testing.T) {
 	tcs := []string{
 		`myIpAddress() === "127.0.0.1"`,
 	}
-	testFunc(t, tcs, "myIpAddress", myIpAddress)
+	testFunc(t, tcs)
 }
 
 func TestDnsDomainLevels(t *testing.T) {
@@ -96,7 +97,7 @@ func TestDnsDomainLevels(t *testing.T) {
 		`dnsDomainLevels("mozilla.org") === 1`,
 		`dnsDomainLevels("www.mozilla.org") === 2`,
 	}
-	testFunc(t, tcs, "dnsDomainLevels", dnsDomainLevels)
+	testFunc(t, tcs)
 }
 
 func TestShExpMatch(t *testing.T) {
@@ -104,5 +105,5 @@ func TestShExpMatch(t *testing.T) {
 		`shExpMatch("http://home.netscape.com/people/ari/index.html"     , "*/ari/*") === true`,
 		`shExpMatch("http://home.netscape.com/people/montulli/index.html", "*/ari/*") === false`,
 	}
-	testFunc(t, tcs, "shExpMatch", shExpMatch)
+	testFunc(t, tcs)
 }
